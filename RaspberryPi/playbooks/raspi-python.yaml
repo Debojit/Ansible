@@ -27,7 +27,3 @@
     pip:
       name: pip-autoremove
       state: present
-  - name: Install Node.js
-    apt:
-      name: nodejs
-      state: latest  

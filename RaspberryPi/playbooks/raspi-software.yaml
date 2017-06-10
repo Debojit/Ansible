@@ -1,0 +1,17 @@
+- hosts: raspi
+  remote_user: pi
+  become: yes
+  
+  tasks:
+  - name: Install/Update node.js
+    apt:
+      name: nodejs
+      state: present
+  - name: Install nmap
+    apt:
+      name: nmap
+      state: present
+  - name: Install MongoDB
+    apt:
+      name: mongodb
+      state: present
