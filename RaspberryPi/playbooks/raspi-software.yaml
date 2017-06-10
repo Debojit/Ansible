@@ -1,0 +1,33 @@
+- hosts: raspi
+  remote_user: pi
+  become: yes
+  
+  tasks:
+  - name: Verify Python 2 is updated
+    apt:
+      name: python
+      state: latest
+  - name: Intsall python-dev-all module
+    apt:
+      name: python-all-dev
+      state: present
+  - name: Install latest setuptools for pip
+    pip:
+      name: setuptools
+      state: present
+  - name: Install Flask
+    pip:
+      name: Flask
+      state: present
+  - name: Install Django
+    pip:
+      name: Django
+      state: present
+  - name: Install pip-autoremove
+    pip:
+      name: pip-autoremove
+      state: present
+  - name: Install Node.js
+    apt:
+      name: nodejs
+      state: latest  
