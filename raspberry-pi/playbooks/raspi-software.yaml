@@ -3,6 +3,14 @@
   become: yes
   
   tasks:
+  - name: Install VIM Editor
+    apt:
+      name: vim
+      state: present
+  - name:
+    apt
+     name: git
+     state: latest
   - name: Install/Update node.js
     apt:
       name: nodejs

@@ -1,9 +1,0 @@
-- hosts: raspi
-  remote_user: pi
-  become: yes
-   
-  tasks:
-  - name: Install/Update Git
-    apt:
-      name: git
-      state: latest
