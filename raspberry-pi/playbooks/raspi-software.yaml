@@ -7,8 +7,8 @@
     apt:
       name: vim
       state: present
-  - name:
-    apt
+  - name: Install Git
+    apt:
      name: git
      state: latest
   - name: Install/Update node.js
@@ -23,3 +23,7 @@
     apt:
       name: mongodb
       state: present
+  - name: Update packages as applicable
+    apt:
+      update_cache: yes
+      upgrade: yes
