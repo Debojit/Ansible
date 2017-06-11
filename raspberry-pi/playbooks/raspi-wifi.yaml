@@ -13,7 +13,7 @@
     private: yes
 
   tasks:
-  - name: Provide username/password
+  - name: Create WiFi config file
     shell: |
      echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
            update_config=1
