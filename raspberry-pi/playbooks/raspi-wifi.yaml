@@ -1,0 +1,42 @@
+- hosts : raspi
+  remote_user: pi
+  become: yes
+  
+  vars_prompt:
+  - name: "wifi_ssid"
+    prompt: "Enter WiFi SSID"
+    default: "SinhaWeb"
+    private: no
+      
+  - name: "wifi_pass"
+    prompt: "Enter WiFi password"
+    private: yes
+
+  tasks:
+  - name: Provide username/password
+    shell: |
+     echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+           update_config=1
+           $(wpa_passphrase {{ wifi_ssid }} {{ wifi_pass }})" > /etc/wpa_supplicant/wpa_supplicant.conf
+     chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
+    ignore_errors: yes
+    
+  - name: Cleanup
+    lineinfile:
+      path: /etc/wpa_supplicant/wpa_supplicant.conf
+      regexp: '#psk'
+      state: absent
+
+  - name: Reboot PI
+    shell: sleep 2 && reboot
+    async: 1
+    poll: 0
+    ignore_errors: true
+
+  - name: Wait for PI to reboot
+    local_action:
+      module: wait_for
+        host="{{ ansible_hostname }}"
+        port=22
+        state=started
+        delay=5
