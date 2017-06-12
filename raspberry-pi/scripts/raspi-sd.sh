@@ -54,12 +54,13 @@ then
 	
 	echo "Format complete. Installing Raspbian Image "$disk_img" to disk "$tgt_disk
 	sudo dd if=$disk_img of=$tgt_disk
+	echo "Image installed. Enabling SSH."
 	sudo touch /Volumes/boot/ssh
-	echo "Image installed. Please eject."
+	echo "SSH enabled. Please eject."
 	exit 0
 elif [ $confirm_flag == 'n' ] || [ $conirm_flag == 'N' ]
 then
-	echo "Not Confirmed"
+	echo "User elected to discontinue formatting. Script will now exit."
 	exit 0
 else
 	echo "ERROR: Invalid input:"$confirm_flag"."
