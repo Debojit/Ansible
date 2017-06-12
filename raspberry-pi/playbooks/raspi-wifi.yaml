@@ -42,4 +42,3 @@
         port=22
         state=started
         delay=5
-        sudo=false
