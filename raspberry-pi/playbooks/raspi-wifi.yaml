@@ -2,31 +2,33 @@
   remote_user: pi
   become: yes
   
+  vars:
+    wifi_pass_hash: "{{ wpa_pass.stdout }}"
+  
   vars_prompt:
   - name: "wifi_ssid"
     prompt: "Enter WiFi SSID"
     default: "SinhaWeb"
     private: no
-      
+   
   - name: "wifi_pass"
     prompt: "Enter WiFi password"
     private: yes
 
   tasks:
+  - name: Obtain password hash
+    shell: wpa_passphrase {{ wifi_ssid }} {{ wifi_pass }} | sed -n 4p | cut -d'=' -f2
+    register: wpa_pass
+  
   - name: Create WiFi config file
-    shell: |
-     echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-           update_config=1
-           $(wpa_passphrase {{ wifi_ssid }} {{ wifi_pass }})" > /etc/wpa_supplicant/wpa_supplicant.conf
-     chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
+    template:
+       src: ../template/wpa_supplicant.conf.j2
+       dest: /etc/wpa_supplicant/wpa_supplicant.conf
+       owner: root
+       group: root
+       mode: 0600
     ignore_errors: yes
-    
-  - name: Cleanup
-    lineinfile:
-      path: /etc/wpa_supplicant/wpa_supplicant.conf
-      regexp: '#psk'
-      state: absent
-
+  
   - name: Reboot PI
     shell: sleep 2 && reboot
     async: 1
@@ -40,3 +42,4 @@
         port=22
         state=started
         delay=5
+        sudo=false
