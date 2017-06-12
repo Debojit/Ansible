@@ -2,7 +2,7 @@
 
 if [ $# -eq 0 ]
 then
-	echo "Usage: raspi-sg.sh [PathToImageFile]"
+	echo "Usage: raspi-sd.sh [PathToImageFile]"
 	exit 1
 elif [ ! -f $1 ]
 then
@@ -54,7 +54,7 @@ then
 	
 	echo "Format complete. Installing Raspbian Image "$disk_img" to disk "$tgt_disk
 	sudo dd if=$disk_img of=$tgt_disk
-	sudo ouch /Volumes/boot/ssh
+	sudo touch /Volumes/boot/ssh
 	echo "Image installed. Please eject."
 	exit 0
 elif [ $confirm_flag == 'n' ] || [ $conirm_flag == 'N' ]
